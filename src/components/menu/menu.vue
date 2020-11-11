@@ -1,7 +1,9 @@
 <template>
     <nav>
         <div class="container">
-            <logo class="logo"/>
+            <router-link to="/home" title="home">
+                <logo class="logo"/>
+            </router-link>
             <button class="logout" @click="logout">Sair</button>
         </div>
     </nav>
@@ -49,6 +51,11 @@ export default {
                 background-color: transparent;
                 border: none;
             }
+        }
+    }
+    @media(max-width:600px){
+        nav{
+            padding: 4px 0
         }
     }
 </style>

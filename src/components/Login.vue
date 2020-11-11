@@ -1,7 +1,8 @@
 <template>
     <section class="login">
+
         <transition name="slide" mode="out-in">
-            <div class="alert alert-danger" v-show="alert==true">
+            <div class="alert alert-warning" v-show="alert==true">
                 Usuário ou senha inválidos
             </div>
         </transition>
@@ -23,11 +24,14 @@
         </div>
 
     </section>
+
 </template>
 
 <script>
+
 import logo from './logo/logo.vue'
 import axios from 'axios'
+
 export default {
     name:'login',
     metaInfo: {
@@ -104,6 +108,7 @@ export default {
             height: auto;
             border: 1px solid $border1;
             padding: 32px;
+            max-width: 90%;
             .logo{
                 display: block;
                 margin: 0 auto;

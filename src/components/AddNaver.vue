@@ -1,12 +1,16 @@
 <template>
     <section>
+
         <transition name="slide" mode="out-in">
-            <div class="alert alert-danger" v-show="message!=''">
+            <div class="alert alert-warning" v-show="message!=''">
                 {{message}}
             </div>
         </transition>
+
         <menutop/>
+
         <div class="addnaver">
+
             <div class="return">
                 <h2> 
                     <router-link to="/home" title="home">
@@ -22,6 +26,7 @@
                     </span >
                 </h2>
             </div>
+
             <div class="fields">
 
                 <div class="item">
@@ -74,9 +79,9 @@
 import menutop from './menu/menu.vue'
 import modal from './modals/modal.vue'
 import axios from 'axios'
+
 export default {
     name:'addNaver',
-    // props:['idp','namep','urlp','admission_datep','birthdatep','job_rolep','projectp'],
     components:{menutop,modal},
     data(){
         return{
@@ -111,7 +116,7 @@ export default {
             axios.post(`https://navedex-api.herokuapp.com/v1/navers`,
             {
                 name:this.name,
-                url:this.url,
+                url:this.url.replaceAll('/','barramentosimb'),
                 job_role:this.job_role,
                 admission_date: this.admission_date.split('-').reverse().join('/'),
                 birthdate:this.birthdate.split('-').reverse().join('/'),
@@ -147,11 +152,12 @@ export default {
             axios.put(`https://navedex-api.herokuapp.com/v1/navers/${this.$route.params.id}`,
             {
                 name:this.name,
-                url:this.url,
+                url:this.url.replaceAll('/','barramentosimb'),
                 job_role:this.job_role,
                 admission_date: this.admission_date.split('-').reverse().join('/'),
                 birthdate:this.birthdate.split('-').reverse().join('/'),
                 project:this.project,
+
             },
             {
                 headers:{
@@ -181,49 +187,36 @@ export default {
     },
     mounted(){
         this.actualDate = this.dataact
-        if(this.$route.params.id){
-            axios.get(`https://navedex-api.herokuapp.com/v1/navers/${this.$route.params.id}`,
-            {
-                headers:{
-                    "key": "Content-Type",
-                    "type": "text",
-                    "value": "application/json",
-                    "Authorization": `Bearer ${localStorage.getItem('token')}`
-                }
-            })
-            .then((res)=>{
-                this.name = res.data.name
-                this.job_role = res.data.job_role
-                this.project = res.data.project
-                this.url = res.data.url
-                let day = new Date(res.data.birthdate).getDate()
-                let month = new Date(res.data.birthdate).getMonth()
-                if(String(day).length==1){
-                    day = `0${day}`
-                }
-                if(String(month).length==1){
-                    month = `0${month}`
-                }
-                this.birthdate = `${new Date(res.data.birthdate).getFullYear()}-${month}-${day}`
-                day = new Date(res.data.admission_date).getDate()
-                month = new Date(res.data.admission_date).getMonth()
-                if(String(day).length==1){
-                    day = `0${day}`
-                }
-                if(String(month).length==1){
-                    month = `0${month}`
-                }
-                this.admission_date = `${new Date(res.data.admission_date).getFullYear()}-${month}-${day}`
 
-            })
-            .catch((error)=>{
-                console.log(error)
-                this.message = 'Houve um erro, tente novamente.'
-            })
+        if(this.$route.params.id){
+            this.job_role = this.$route.params.job_role
+            this.name = this.$route.params.name
+            this.project = this.$route.params.project
+            this.url = this.$route.params.url.replaceAll('barramentosimb','/')
+            let day = new Date(this.$route.params.birthdate).getUTCDate()
+            let month = new Date(this.$route.params.birthdate).getUTCMonth()
+            if(String(day).length==1){
+                day = `0${day}`
+            }
+            if(String(month).length==1){
+                month = `0${month}`
+            }
+            this.birthdate = `${new Date(this.$route.params.birthdate).getUTCFullYear()}-${month}-${day}`
+            day = new Date(this.$route.params.admission_date).getUTCDate()
+            month = new Date(this.$route.params.admission_date).getUTCMonth()
+            if(String(day).length==1){
+                day = `0${day}`
+            }
+            if(String(month).length==1){
+                month = `0${month}`
+            }
+            this.admission_date = `${new Date(this.$route.params.admission_date).getUTCFullYear()}-${month}-${day}`
+
         }
     }
 }
 </script>
+
 <style lang="scss" type="text/scss" scoped>
     @import '../styles/variables.scss';
     section{
@@ -231,6 +224,7 @@ export default {
         display: flex;
         align-items: center;
         justify-content: center;
+        padding-bottom: 32px;
         .addnaver{
             max-width: 600px;
             width: 100%;
@@ -283,6 +277,17 @@ export default {
                 }
             }
             
+        }
+    }
+    @media(max-width:900px){
+        section{
+            .addnaver{
+                .fields{
+                    .item{
+                        width: 100%;
+                    }
+                }
+            }
         }
     }
 </style>

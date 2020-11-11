@@ -54,7 +54,7 @@ export default {
     border-radius: .25rem;
     z-index: 1;
   }
-  .alert-danger{
+  .alert-warning{
     color: white;
     background-color: #212121;
   }

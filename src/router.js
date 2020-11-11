@@ -12,7 +12,7 @@ export default new Router({
         {path:'/home',component: Home},
         {path:'/login',component: Login},
         {path:'/add',component: Add},
-        {path:'/update/:id',component: Add},
+        {path:'/update/:id/:name/:birthdate/:admission_date/:project/:job_role/:url',component: Add},
         {path:'*',component:Home}
     ]
 })
