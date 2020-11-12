@@ -1,100 +1,127 @@
 <template>
-    <transition name="modal" mode="out-in" >
-
-        <div v-show="showmodal==true" class="modal" @click="closemodal">
-
-            <div class="modal-center" @click.stop v-if="method!='show'">
-
-                <div class="close" @click="closemodal" v-if="method!='delete'">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z" fill="#212121"/>
-                    </svg>
-                </div>
-
-                <span v-if="method=='delete'">
-                    <h1>Excluir Naver</h1>
-                    <p>Tem certeza que deseja excluir esse Naver?</p>
-                    <div class="buttons">
-                        <button class="cancelar default-button reverse" @click="closemodal">Cancelar</button>
-                        <slot></slot>
-                    </div>
-                </span>
-
-                <span v-if="method=='add'">
-                    <h1>Naver criado</h1>
-                    <p>Naver criado com sucesso!</p>
-                </span>
-
-                <span v-if="method=='deleteresult'">
-                    <h1>Naver excluído</h1>
-                    <p>Naver excluído com sucesso!</p>
-                </span>
-
-                <span v-if="method=='update'">
-                    <h1>Naver atualizado</h1>
-                    <p>Naver atualizado com sucesso!</p>
-                </span>
-
-            </div>
-
-            <div class="modal-center shownaver" @click.stop v-if="method=='show'">
-
-                <div class="close" @click="closemodal" >
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z" fill="#212121"/>
-                    </svg>
-                </div>
-
-                <div class="left" v-if="dados.url">
-                    <img :src="dados.url.replaceAll('barramentosimb','/')" :alt="dados.name">
-                </div>
-
-                <div class="right">
-
-                    <h1>{{dados.name}}</h1>
-                    <p>
-                        {{dados.job_role}}
-                    </p>
-                    <p class="name_role">
-                        Idade
-                    </p>
-                    <p>
-                        {{idade}} anos
-                    </p>
-                    <p class="name_role">
-                        Tempo de empresa
-                    </p>
-                    <p>
-                        {{tempEmpresa}}
-                    </p>
-                    <p class="name_role">
-                        Projetos que participou
-                    </p>
-                    <p>
-                        {{dados.project}}
-                    </p>
-
-                    <div class="buttons">
-
-                        <button  :data-id="dados.id" @click="deleteelement">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M6 21H18V7H6V21ZM19 4H15.5L14.5 3H9.5L8.5 4H5V6H19V4Z" fill="#212121"/>
-                            </svg>
-                        </button>
-
-                        <router-link :to="`/update/${dados.id}/${dados.name}/${dados.birthdate}/${dados.admission_date}/${dados.project}/${dados.job_role}/${dados.url}`">
-                            <button  :data-id="dados.id">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M3 17.25V21H6.75L17.81 9.94L14.06 6.19L3 17.25ZM21.41 6.34L17.66 2.59L15.13 5.13L18.88 8.88L21.41 6.34Z" fill="#212121"/>
-                                </svg>
-                            </button>
-                        </router-link>
-                    </div>
-
-                </div>
-            </div>
+  <transition name="modal" mode="out-in">
+    <div v-show="showmodal == true" class="modal" @click="closemodal">
+      <div class="modal-center" @click.stop v-if="method != 'show'">
+        <div class="close" @click="closemodal" v-if="method != 'delete'">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z"
+              fill="#212121"
+            />
+          </svg>
         </div>
-    </transition>
+
+        <span v-if="method == 'delete'">
+          <h1>Excluir Naver</h1>
+          <p>Tem certeza que deseja excluir esse Naver?</p>
+          <div class="buttons">
+            <button class="cancelar default-button reverse" @click="closemodal">
+              Cancelar
+            </button>
+            <slot></slot>
+          </div>
+        </span>
+
+        <span v-if="method == 'add'">
+          <h1>Naver criado</h1>
+          <p>Naver criado com sucesso!</p>
+        </span>
+
+        <span v-if="method == 'deleteresult'">
+          <h1>Naver excluído</h1>
+          <p>Naver excluído com sucesso!</p>
+        </span>
+
+        <span v-if="method == 'update'">
+          <h1>Naver atualizado</h1>
+          <p>Naver atualizado com sucesso!</p>
+        </span>
+      </div>
+
+      <div class="modal-center shownaver" @click.stop v-if="method == 'show'">
+        <div class="close" @click="closemodal">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z"
+              fill="#212121"
+            />
+          </svg>
+        </div>
+
+        <div class="left" v-if="dados.url">
+          <img
+            :src="dados.url.replaceAll('barramentosimb', '/')"
+            :alt="dados.name"
+          />
+        </div>
+
+        <div class="right">
+          <h1>{{ dados.name }}</h1>
+          <p>
+            {{ dados.job_role }}
+          </p>
+          <p class="name_role">Idade</p>
+          <p>{{ idade }} anos</p>
+          <p class="name_role">Tempo de empresa</p>
+          <p>
+            {{ tempEmpresa }}
+          </p>
+          <p class="name_role">Projetos que participou</p>
+          <p>
+            {{ dados.project }}
+          </p>
+
+          <div class="buttons">
+            <button :data-id="dados.id" @click="deleteelement">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M6 21H18V7H6V21ZM19 4H15.5L14.5 3H9.5L8.5 4H5V6H19V4Z"
+                  fill="#212121"
+                />
+              </svg>
+            </button>
+
+            <router-link
+              :to="`/update/${dados.id}/${dados.name}/${dados.birthdate}/${dados.admission_date}/${dados.project}/${dados.job_role}/${dados.url}`"
+            >
+              <button :data-id="dados.id">
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M3 17.25V21H6.75L17.81 9.94L14.06 6.19L3 17.25ZM21.41 6.34L17.66 2.59L15.13 5.13L18.88 8.88L21.41 6.34Z"
+                    fill="#212121"
+                  />
+                </svg>
+              </button>
+            </router-link>
+          </div>
+        </div>
+      </div>
+    </div>
+  </transition>
 </template>
 
 <script>

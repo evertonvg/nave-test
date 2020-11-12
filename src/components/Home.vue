@@ -1,63 +1,87 @@
 <template>
-    <section class="home">
+  <section class="home">
+    <transition name="slide" mode="out-in">
+      <div class="alert alert-warning" v-show="message != ''">
+        {{ message }}
+      </div>
+    </transition>
 
-        <transition name="slide" mode="out-in">
-            <div class="alert alert-warning" v-show="message!=''">
-                {{message}}
+    <menutop ref="menutop" />
+
+    <div class="container">
+      <div class="titles">
+        <h1>Navers</h1>
+        <router-link to="/add" title="home" class="default-button"
+          >Adicionar naver</router-link
+        >
+      </div>
+
+      <div class="row">
+        <transition-group name="slide" mode="out-in">
+          <div
+            class="item"
+            v-for="nav in navers"
+            :key="nav.id"
+            :class="`id${nav.id}`"
+          >
+            <div class="photo" @click="loadnaver" :data-id="nav.id">
+              <img
+                :src="`${nav.url.replaceAll('barramentosimb', '/')}`"
+                :alt="nav.name"
+                :data-id="nav.id"
+              />
             </div>
-        </transition>
 
-        <menutop ref="menutop" />
+            <p class="name">{{ nav.name }}</p>
 
-        <div class="container">
+            <p class="function">{{ nav.job_role }}</p>
 
-            <div class="titles">
-                <h1>Navers</h1>
-                <router-link to="/add" title="home" class="default-button">Adicionar naver</router-link>
+            <div class="buttons">
+              <button @click="showmodaldelete" :data-id="nav.id">
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M6 21H18V7H6V21ZM19 4H15.5L14.5 3H9.5L8.5 4H5V6H19V4Z"
+                    fill="#212121"
+                  />
+                </svg>
+              </button>
+
+              <router-link
+                :to="`/update/${nav.id}/${nav.name}/${nav.birthdate}/${nav.admission_date}/${nav.project}/${nav.job_role}/${nav.url}`"
+              >
+                <button>
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M3 17.25V21H6.75L17.81 9.94L14.06 6.19L3 17.25ZM21.41 6.34L17.66 2.59L15.13 5.13L18.88 8.88L21.41 6.34Z"
+                      fill="#212121"
+                    />
+                  </svg>
+                </button>
+              </router-link>
             </div>
+          </div>
+        </transition-group>
+      </div>
+    </div>
 
-            <div class="row">
-                <transition-group name="slide" mode="out-in">
-                    <div class="item" v-for="nav in navers " :key="nav.id" :class="`id${nav.id}`">
-                        
-                        <div class="photo" @click="loadnaver" :data-id="nav.id">
-                            <img :src="`${nav.url.replaceAll('barramentosimb','/')}`" :alt="nav.name" :data-id="nav.id">
-                        </div>
-
-                        <p class="name">{{nav.name}}</p>
-
-                        <p class="function">{{nav.job_role}}</p>
-
-                        <div class="buttons">
-
-                            <button @click="showmodaldelete" :data-id="nav.id">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M6 21H18V7H6V21ZM19 4H15.5L14.5 3H9.5L8.5 4H5V6H19V4Z" fill="#212121"/>
-                                </svg>
-                            </button>
-
-                            <router-link :to="`/update/${nav.id}/${nav.name}/${nav.birthdate}/${nav.admission_date}/${nav.project}/${nav.job_role}/${nav.url}`">
-                                <button>
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M3 17.25V21H6.75L17.81 9.94L14.06 6.19L3 17.25ZM21.41 6.34L17.66 2.59L15.13 5.13L18.88 8.88L21.41 6.34Z" fill="#212121"/>
-                                    </svg>
-                                </button>
-                            </router-link>
-
-                        </div>
-
-                    </div>
-                </transition-group>
-            </div>
-            
-        </div>
-        
-        <modal :method="method" ref="modal" :dados="dados">
-            <button class="excluir default-button" @click="deletenaver">Excluir</button>
-        </modal>
-        
-    </section>
-    
+    <modal :method="method" ref="modal" :dados="dados">
+      <button class="excluir default-button" @click="deletenaver">
+        Excluir
+      </button>
+    </modal>
+  </section>
 </template>
 <script>
 

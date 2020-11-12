@@ -1,30 +1,45 @@
 <template>
-    <section class="login">
+  <section class="login">
+    <transition name="slide" mode="out-in">
+      <div class="alert alert-warning" v-show="alert == true">
+        Usuário ou senha inválidos
+      </div>
+    </transition>
 
-        <transition name="slide" mode="out-in">
-            <div class="alert alert-warning" v-show="alert==true">
-                Usuário ou senha inválidos
-            </div>
-        </transition>
+    <div class="login-box">
+      <logo class="logo" />
 
-        <div class="login-box">
+      <label for="email">E-mail</label>
 
-            <logo class="logo"/>
+      <input
+        type="email"
+        placeholder="E-mail"
+        id="email"
+        v-model="email"
+        required
+      />
 
-            <label for="email">E-mail</label>
+      <label for="senha">Senha</label>
 
-            <input type="email" placeholder="E-mail" id="email" v-model="email" required>
+      <input
+        type="password"
+        placeholder="Senha"
+        id="senha"
+        minlength="6"
+        v-model="senha"
+        required
+      />
 
-            <label for="senha">Senha</label>
-
-            <input type="password" placeholder="Senha" id="senha" minlength="6" v-model="senha" required>
-
-            <input type="submit" :value="submitbutton" @click="login" :disabled="email=='' || senha.length<6 || submitbutton=='Entrando'">
-
-        </div>
-
-    </section>
-
+      <input
+        type="submit"
+        :value="submitbutton"
+        @click="login"
+        :disabled="
+          email == '' || senha.length < 6 || submitbutton == 'Entrando'
+        "
+      />
+    </div>
+  </section>
 </template>
 
 <script>

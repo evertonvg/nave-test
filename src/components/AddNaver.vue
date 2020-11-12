@@ -1,78 +1,129 @@
 <template>
-    <section>
+  <section>
+    <transition name="slide" mode="out-in">
+      <div class="alert alert-warning" v-show="message != ''">
+        {{ message }}
+      </div>
+    </transition>
 
-        <transition name="slide" mode="out-in">
-            <div class="alert alert-warning" v-show="message!=''">
-                {{message}}
-            </div>
-        </transition>
+    <menutop />
 
-        <menutop/>
+    <div class="addnaver">
+      <div class="return">
+        <h2>
+          <router-link to="/home" title="home">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M17.51 3.86998L15.73 2.09998L5.84 12L15.74 21.9L17.51 20.13L9.38 12L17.51 3.86998Z"
+                fill="black"
+              />
+            </svg>
+          </router-link>
+          <span v-if="this.$route.path == '/add'"> Adicionar Naver </span>
+          <span v-else> Atualizar Naver </span>
+        </h2>
+      </div>
 
-        <div class="addnaver">
-
-            <div class="return">
-                <h2> 
-                    <router-link to="/home" title="home">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M17.51 3.86998L15.73 2.09998L5.84 12L15.74 21.9L17.51 20.13L9.38 12L17.51 3.86998Z" fill="black"/>
-                        </svg>
-                    </router-link>
-                    <span v-if="this.$route.path=='/add'">
-                        Adicionar Naver
-                    </span>
-                    <span v-else>
-                        Atualizar Naver
-                    </span >
-                </h2>
-            </div>
-
-            <div class="fields">
-
-                <div class="item">
-                    <label for="nome">Nome</label>
-                    <input type="text" placeholder="Nome" v-model="name" id="nome">
-                </div>
-
-                 <div class="item">
-                    <label for="cargo">Cargo</label>
-                    <input type="text" placeholder="Cargo" v-model="job_role" id="cargo">
-                </div>
-
-                <div class="item">
-                    <label for="idade">Data de nascimento</label>
-                    <input type="date" placeholder="Data de nascimento"  v-model="birthdate" id="idade" min="1970-01-01" :max="actualDate">
-                </div>
-            
-                <div class="item">
-                    <label for="tempo">Data de admissão</label>
-                    <input type="date" placeholder="Data de admissão" v-model="admission_date" id="tempo" min="1970-01-01" :max="actualDate">
-                </div>
-                <div class="item">
-                    <label for="projetos">Projetos que participou</label>
-                    <input type="text" placeholder="Projetos que participou" v-model="project" id="projetos">
-                </div>
-                <div class="item">
-                    <label for="url">URL da foto do Naver</label>
-                    <input type="text" placeholder="URL da foto do naver" v-model="url" id="url">
-                </div>
-                <div class="submit" >
-                    <button class="default-button" @click="submitnaver" v-if="this.$route.path=='/add'"
-                    :disabled="name.length<3 || job_role.length<3 || birthdate.length<10 || admission_date.length<10 || project.length<3 || url.length<5">
-                        Salvar
-                    </button>
-                    <button class="default-button" @click="updatenaver" v-else
-                    :disabled="name.length<3 || job_role.length<3 || birthdate.length<10 || admission_date.length<10 || project.length<3 || url.length<5">
-                        Atualizar
-                    </button>
-                </div>
-            </div>
+      <div class="fields">
+        <div class="item">
+          <label for="nome">Nome</label>
+          <input type="text" placeholder="Nome" v-model="name" id="nome" />
         </div>
 
-        <modal  :method="method"  ref="modal" >
-        </modal>
-        
-    </section>
+        <div class="item">
+          <label for="cargo">Cargo</label>
+          <input
+            type="text"
+            placeholder="Cargo"
+            v-model="job_role"
+            id="cargo"
+          />
+        </div>
+
+        <div class="item">
+          <label for="idade">Data de nascimento</label>
+          <input
+            type="date"
+            placeholder="Data de nascimento"
+            v-model="birthdate"
+            id="idade"
+            min="1970-01-01"
+            :max="actualDate"
+          />
+        </div>
+
+        <div class="item">
+          <label for="tempo">Data de admissão</label>
+          <input
+            type="date"
+            placeholder="Data de admissão"
+            v-model="admission_date"
+            id="tempo"
+            min="1970-01-01"
+            :max="actualDate"
+          />
+        </div>
+        <div class="item">
+          <label for="projetos">Projetos que participou</label>
+          <input
+            type="text"
+            placeholder="Projetos que participou"
+            v-model="project"
+            id="projetos"
+          />
+        </div>
+        <div class="item">
+          <label for="url">URL da foto do Naver</label>
+          <input
+            type="text"
+            placeholder="URL da foto do naver"
+            v-model="url"
+            id="url"
+          />
+        </div>
+        <div class="submit">
+          <button
+            class="default-button"
+            @click="submitnaver"
+            v-if="this.$route.path == '/add'"
+            :disabled="
+              name.length < 3 ||
+              job_role.length < 3 ||
+              birthdate.length < 10 ||
+              admission_date.length < 10 ||
+              project.length < 3 ||
+              url.length < 5
+            "
+          >
+            Salvar
+          </button>
+          <button
+            class="default-button"
+            @click="updatenaver"
+            v-else
+            :disabled="
+              name.length < 3 ||
+              job_role.length < 3 ||
+              birthdate.length < 10 ||
+              admission_date.length < 10 ||
+              project.length < 3 ||
+              url.length < 5
+            "
+          >
+            Atualizar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <modal :method="method" ref="modal"> </modal>
+  </section>
 </template>
 
 <script>
