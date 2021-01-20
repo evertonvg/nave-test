@@ -53,7 +53,13 @@
               </button>
 
               <router-link
-                :to="`/update/${nav.id}/${nav.name}/${nav.birthdate}/${nav.admission_date}/${nav.project}/${nav.job_role}/${nav.url}`"
+                :to="{ path: '/update' }"
+                :idp="nav.id"
+                :namep="nav.name"
+                :projectp="nav.project"
+                :birthdatep="nav.birthdate"
+                :admission_datep="nav.admission_date"
+                :job_rolep="nav.job_role"
               >
                 <button>
                   <svg
@@ -77,8 +83,27 @@
     </div>
 
     <modal :method="method" ref="modal" :dados="dados">
-      <button class="excluir default-button" @click="deletenaver">
+      <button
+        class="excluir default-button"
+        @click="deletenaver"
+        slot="button-delete"
+      >
         Excluir
+      </button>
+
+      <button :data-id="dados.id" slot="delete" @click="showmodaldelete">
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M6 21H18V7H6V21ZM19 4H15.5L14.5 3H9.5L8.5 4H5V6H19V4Z"
+            fill="#212121"
+          />
+        </svg>
       </button>
     </modal>
   </section>

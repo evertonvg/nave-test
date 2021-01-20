@@ -133,6 +133,7 @@ import axios from 'axios'
 
 export default {
     name:'addNaver',
+    props:['idp','namep','birthdatep','admission_datep','projectp','job_rolep'],
     components:{menutop,modal},
     data(){
         return{
@@ -238,14 +239,15 @@ export default {
     },
     mounted(){
         this.actualDate = this.dataact
-
-        if(this.$route.params.id){
-            this.job_role = this.$route.params.job_role
-            this.name = this.$route.params.name
-            this.project = this.$route.params.project
-            this.url = this.$route.params.url.replaceAll('barramentosimb','/')
-            let day = new Date(this.$route.params.birthdate).getUTCDate()
-            let month = new Date(this.$route.params.birthdate).getUTCMonth()
+        console.log(this.$route)
+        console.log(this.idp)
+        if(this.$route.params.idp){
+            // this.job_role = this.$route.params.job_role
+            // this.name = this.$route.params.name
+            // this.project = this.$route.params.project
+            // this.url = this.$route.params.url.replaceAll('barramentosimb','/')
+            // let day = new Date(this.$route.params.birthdate).getUTCDate()
+            // let month = new Date(this.$route.params.birthdate).getUTCMonth()
             if(String(day).length==1){
                 day = `0${day}`
             }
